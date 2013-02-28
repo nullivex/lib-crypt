@@ -51,7 +51,7 @@ class Crypt {
 	//setup and store keys
 	protected function __construct($key,$iv){
 		$this->key = $key;
-		$this->iv = $Iv;
+		$this->iv = $iv;
 	}
 	
 	public function verify(){
