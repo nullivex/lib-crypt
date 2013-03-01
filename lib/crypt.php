@@ -58,7 +58,7 @@ class Crypt {
 		$this->verifyKey();
 		$this->verifyIV();
 		$this->verified = true;
-		return true;
+		return $this;
 	}
 
 	//verify existence and size of key
