@@ -23,7 +23,7 @@ class Crypt {
 	//-----------------------------------------------------
 	
 	//generate usable IV for config
-	public static function crypt_iv_create(){
+	public static function IVCreate(){
 		return base64_encode(mcrypt_create_iv(
 			 mcrypt_get_iv_size(CRYPT_CIPHER,CRYPT_MODE)
 			,CRYPT_RAND
@@ -31,7 +31,7 @@ class Crypt {
 	}
 
 	//generate usable key for config
-	public static function crypt_key_create(){
+	public static function keyCreate(){
 		return base64_encode(mcrypt_create_iv(
 			 mcrypt_get_key_size(CRYPT_CIPHER,CRYPT_MODE)
 			,CRYPT_RAND
