@@ -6,54 +6,53 @@
 //	on the fly
 //---------------------------------------------------------
 
-//NOTE: changing these would require new keys
-define('CRYPT_CIPHER',MCRYPT_RIJNDAEL_256);
-define('CRYPT_MODE',MCRYPT_MODE_CBC);
-define('CRYPT_RAND',MCRYPT_DEV_URANDOM);
-
 class Crypt {
+
+	//NOTE: changing these would require new keys
+	public $crypt_cipher	=	MCRYPT_RIJNDAEL_256;
+	public $crypt_mode	=	MCRYPT_MODE_CBC;
+	public $crypt_rand	=	MCRYPT_DEV_URANDOM;
 
 	private $key;
 	private $iv;
-	
+
 	protected $verified = false;
-	
+
 	//-----------------------------------------------------
 	//Static Access
 	//-----------------------------------------------------
-	
+
 	//generate usable IV for config
 	public static function IVCreate(){
 		return base64_encode(mcrypt_create_iv(
-			 mcrypt_get_iv_size(CRYPT_CIPHER,CRYPT_MODE)
-			,CRYPT_RAND
+			 mcrypt_get_iv_size($this->crypt_cipher,$this->crypt_mode)
+			,$this->crypt_rand
 		));
 	}
 
 	//generate usable key for config
 	public static function keyCreate(){
 		return base64_encode(mcrypt_create_iv(
-			 mcrypt_get_key_size(CRYPT_CIPHER,CRYPT_MODE)
-			,CRYPT_RAND
+			 mcrypt_get_key_size($this->crypt_cipher,$this->crypt_mode)
+			,$this->crypt_rand
 		));
 	}
-	
+
 	//static constructor access
 	public static function _get($key,$iv){
-		$class = __CLASS__;
-		return new $class($key,$iv);
+		return new static($key,$iv);
 	}
-	
+
 	//-----------------------------------------------------
 	//Object Methods
 	//-----------------------------------------------------
-	
+
 	//setup and store keys
 	protected function __construct($key,$iv){
 		$this->key = $key;
 		$this->iv = $iv;
 	}
-	
+
 	public function verify(){
 		$this->verifyKey();
 		$this->verifyIV();
@@ -63,7 +62,7 @@ class Crypt {
 
 	//verify existence and size of key
 	protected function verifyKey(){
-		$key_size = mcrypt_get_key_size(CRYPT_CIPHER,CRYPT_MODE);
+		$key_size = mcrypt_get_key_size($this->crypt_cipher,$this->crypt_mode);
 		//verify we have a key before starting
 		if(!isset($this->key) || is_null($this->key)){
 			throw new Exception('No encryption key defined in config');
@@ -76,7 +75,7 @@ class Crypt {
 
 	//verify existencve and size of iv
 	protected function verifyIV(){
-		$iv_size = mcrypt_get_iv_size(CRYPT_CIPHER,CRYPT_MODE);
+		$iv_size = mcrypt_get_iv_size($this->crypt_cipher,$this->crypt_mode);
 		//verify we have a key before starting
 		if(!isset($this->iv) || is_null($this->iv)){
 			throw new Exception('No IV key defined in config');
@@ -92,15 +91,14 @@ class Crypt {
 		if(!$this->verified) $this->verify();
 		//encrypt and return
 		$enc_string = mcrypt_encrypt(
-			 CRYPT_CIPHER
+			 $this->crypt_cipher
 			,base64_decode($this->key)
 			,$plain_string
-			,CRYPT_MODE
+			,$this->crypt_mode
 			,base64_decode($this->iv)
 		);
 		if($base64_encode) return base64_encode($enc_string);
 		return $enc_string;
-
 	}
 
 	//decrypt string from an optionally base64_encoded source
@@ -109,13 +107,13 @@ class Crypt {
 		if(!$this->verified) $this->verify();
 		//decrypt and return
 		if($base64_decode) $enc_string = base64_decode($enc_string);
-		return mcrypt_decrypt(
-			 CRYPT_CIPHER
+		return trim(mcrypt_decrypt(
+			 $this->crypt_cipher
 			,base64_decode($this->key)
 			,$enc_string
-			,CRYPT_MODE
+			,$this->crypt_mode
 			,base64_decode($this->iv)
-		);
+		),chr(0));
 	}
 
 }
