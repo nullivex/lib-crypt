@@ -10,8 +10,8 @@ class Crypt {
 
 	//NOTE: changing these would require new keys
 	public $crypt_cipher	=	MCRYPT_RIJNDAEL_256;
-	public $crypt_mode	=	MCRYPT_MODE_CBC;
-	public $crypt_rand	=	MCRYPT_DEV_URANDOM;
+	public $crypt_mode		=	MCRYPT_MODE_CBC;
+	public $crypt_rand		=	MCRYPT_DEV_URANDOM;
 
 	private $key;
 	private $iv;
@@ -107,13 +107,13 @@ class Crypt {
 		if(!$this->verified) $this->verify();
 		//decrypt and return
 		if($base64_decode) $enc_string = base64_decode($enc_string);
-		return trim(mcrypt_decrypt(
+		return rtrim(mcrypt_decrypt(
 			 $this->crypt_cipher
 			,base64_decode($this->key)
 			,$enc_string
 			,$this->crypt_mode
 			,base64_decode($this->iv)
-		),chr(0));
+		),"\0");
 	}
 
 }
