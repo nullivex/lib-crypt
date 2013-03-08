@@ -107,13 +107,13 @@ class Crypt {
 		if(!$this->verified) $this->verify();
 		//decrypt and return
 		if($base64_decode) $enc_string = base64_decode($enc_string);
-		return rtrim(mcrypt_decrypt(
+		return mcrypt_decrypt(
 			 self::$crypt_cipher
 			,base64_decode($this->key)
 			,$enc_string
 			,self::$crypt_mode
 			,base64_decode($this->iv)
-		),"\0");
+		);
 	}
 
 }
