@@ -53,6 +53,16 @@ class Crypt {
 		$this->iv = $iv;
 	}
 
+	public function setKey($key){
+		$this->key = $key;
+		return $this;
+	}
+
+	public function setIV($iv){
+		$this->iv = $iv;
+		return $this;
+	}
+
 	public function verify(){
 		$this->verifyKey();
 		$this->verifyIV();
@@ -89,6 +99,9 @@ class Crypt {
 	//encrypt string and optionally base64_encode
 	public function encrypt($plain_string,$base64_encode=true){
 		if(!$this->verified) $this->verify();
+		//add size atom to encrypted string
+		$size = pack('N',strlen($plain_string));
+		$plain_string = $size.$plain_string;
 		//encrypt and return
 		$enc_string = mcrypt_encrypt(
 			 self::$crypt_cipher
@@ -107,13 +120,18 @@ class Crypt {
 		if(!$this->verified) $this->verify();
 		//decrypt and return
 		if($base64_decode) $enc_string = base64_decode($enc_string);
-		return mcrypt_decrypt(
+		$plain_string = mcrypt_decrypt(
 			 self::$crypt_cipher
 			,base64_decode($this->key)
 			,$enc_string
 			,self::$crypt_mode
 			,base64_decode($this->iv)
 		);
+		//get size of string from atom
+		$size = mda_shift(unpack('N',substr($plain_string,0,4)));
+		//make sure we have the original string
+		$plain_string = substr($plain_string,4,$size);
+		return $plain_string;
 	}
 
 }
