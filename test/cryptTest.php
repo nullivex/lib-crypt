@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__DIR__).'/test_common.php');
-lib('crypt');
+ld('crypt');
 
 define('CRYPT_KEY','fDCb/LbbHHktg07zvZgLniX5Bf4gpmLv1LkM6nLuPNk=');
 define('CRYPT_IV','mhKxiKdTSD4BKR26L/QHSnaCk/1xt1vQVD1xxE37Mew=');
