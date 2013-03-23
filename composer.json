@@ -1,0 +1,30 @@
+{
+	 "name":				"openlss/lib-crypt"
+	,"homepage":			"http://openlss.org"
+	,"description":			"Shorthand library for using AES encryption provided by PHP-Mcrypt"
+	,"license":				"LGPL-3.0+"
+	,"type":				"library"
+	,"keywords": [
+		 "mcrypt"
+		,"AES"
+		,"encryption"
+		,"decryption"
+	]
+	,"authors": [
+		 {
+			 "name":		"Bryan Tong"
+			,"email":		"contact@nullivex.com"
+			,"homepage":	"http://bryantong.com"
+		}
+		,{
+			 "name":		"Tony Butler"
+			,"email":		"spudz76@gmail.com"
+			,"homepage":	"http://openlss.org"
+		}
+	]
+	,"require": {
+		 "php":					">=5.3.2"
+		,"openlss/core-boot":	">=0.0.1"
+		,"openlss/lib-config":	">=0.0.1"
+	}
+}

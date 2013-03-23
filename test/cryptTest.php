@@ -1,5 +1,6 @@
 <?php
-require_once(dirname(__DIR__).'/test_common.php');
+require_once(dirname(__DIR__).'/vendor/autoload.php');
+require('boot.php');
 ld('crypt');
 
 define('CRYPT_KEY','fDCb/LbbHHktg07zvZgLniX5Bf4gpmLv1LkM6nLuPNk=');

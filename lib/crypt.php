@@ -1,5 +1,5 @@
 <?php
-
+if(!extension_loaded('mcrypt')) throw new Exception('MCrypt extension not present!');
 //---------------------------------------------------------
 //Crypt Library
 //	This is a shorthand library for using AES encryption
