@@ -6,7 +6,7 @@ Shorthand library for using AES encryption provided by PHP-Mcrypt
 Usage
 ----
 ```php
-ld('crypt');
+use \LSS\Crypt;
 
 //create keys
 $iv_key = Crypt::IVCreate();
