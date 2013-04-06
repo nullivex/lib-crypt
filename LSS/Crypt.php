@@ -20,6 +20,8 @@
  */
 namespace LSS;
 
+use \Exception;
+
 if(!extension_loaded('mcrypt')) throw new Exception('MCrypt extension not present!');
 //---------------------------------------------------------
 //Crypt Library
@@ -99,7 +101,7 @@ class Crypt {
 			throw new Exception('No encryption key defined in config');
 		}
 		if(strlen(base64_decode($this->key)) < $key_size){
-			throw new Exception('Encryption key is too shorted, required length: '.$key_size);
+			throw new Exception('Encryption key is too short, required length: '.$key_size);
 		}
 		return true;
 	}
