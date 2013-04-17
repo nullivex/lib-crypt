@@ -151,7 +151,8 @@ class Crypt {
 			,base64_decode($this->iv)
 		);
 		//get size of string from atom
-		$size = array_shift(unpack('N',substr($plain_string,0,4)));
+		$size = unpack('N',substr($plain_string,0,4));
+		$size = array_shift($size);
 		//make sure we have the original string
 		$plain_string = substr($plain_string,4,$size);
 		return $plain_string;
